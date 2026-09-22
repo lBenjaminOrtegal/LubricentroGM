@@ -1,0 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
+import { negocio, linkWhatsapp, linkGmailCompose } from '../data/negocio.js';
+import { Image } from 'astro:assets';
+
+import local from '../assets/local/Screenshot_1.png';
+
+const canales = [
+  {
+    nombre: 'WhatsApp',
+    detalle: 'Respuesta más rápida, la ideal para cotizar.',
+    href: linkWhatsapp('Hola, quiero hacer una consulta.'),
+    icono: 'whatsapp',
+  },
+  {
+    nombre: 'Instagram',
+    detalle: 'Síguenos y escríbenos por mensaje directo.',
+    href: negocio.redes.instagram,
+    icono: 'instagram',
+  },
+  {
+    nombre: 'Correo',
+    detalle: negocio.correo,
+    href: linkGmailCompose({ asunto: 'Consulta desde el sitio web' }),
+    icono: 'correo',
+  },
+];
+---
+
+<Layout
+  title={`Contáctanos | ${negocio.nombre}`}
+  description={`Escríbenos por WhatsApp, Instagram o correo. ${negocio.nombre} en ${negocio.direccion.comuna}.`}
+>
+  <section class="mx-auto max-w-content px-6 py-14">
+    <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
+      Contáctanos
+    </h1>
+    <p class="mt-2 max-w-xl text-sm text-asfalto-700">
+      Elige el canal que prefieras. Para cotizaciones rápidas, WhatsApp es la vía más directa.
+    </p>
+
+    <!-- Tres canales de contacto -->
+    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+      {canales.map((c) => (
+        <a
+          href={c.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex flex-col gap-3 border border-asfalto-800/10 bg-white p-6 transition-colors hover:border-senal"
+        >
+          <span class="text-asfalto-900 group-hover:text-senal">
+            {c.icono === 'whatsapp' && (
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.55-1.17-2.96 0-1.4.73-2.09.99-2.38.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 1.99.88 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.55.73 1.82.87.27.14.44.2.51.32.07.11.07.65-.17 1.33Z" />
+              </svg>
+            )}
+            {c.icono === 'instagram' && (
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+              </svg>
+            )}
+            {c.icono === 'correo' && (
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m4 7 8 6 8-6" />
+              </svg>
+            )}
+          </span>
+          <div>
+            <p class="font-display text-base font-semibold uppercase tracking-wide text-asfalto-900">
+              {c.nombre}
+            </p>
+            <p class="mt-1 text-sm text-asfalto-700">{c.detalle}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Formulario + Visítanos -->
+    <div class="mt-14 grid gap-12 border-t border-asfalto-800/10 pt-12 md:grid-cols-2">
+      <div>
+        <h2 class="font-display text-xl font-semibold uppercase tracking-wide text-asfalto-900">
+          O escríbenos directo
+        </h2>
+        <p class="mt-2 text-sm text-asfalto-700">
+          Completa el formulario y se abrirá tu app de correo con el mensaje listo para enviar.
+        </p>
+
+        <form id="form-contacto" class="mt-6 flex flex-col gap-4">
+          <div>
+            <label for="nombre" class="text-sm font-semibold text-asfalto-900">Nombre</label>
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              required
+              class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:border-senal focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="mensaje" class="text-sm font-semibold text-asfalto-900">Mensaje</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="5"
+              required
+              class="mt-4 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:border-senal focus:outline-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="mt-1 self-start bg-senal px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white hover:bg-senal-dark"
+          >
+            Enviar correo
+          </button>
+        </form>
+      </div>
+
+      <!-- Visítanos -->
+      <div>
+        <h2 class="font-display text-xl font-semibold uppercase tracking-wide text-asfalto-900">
+          También puedes venir a visitarnos
+        </h2>
+        <p class="mt-2 text-sm text-asfalto-700">
+          {negocio.direccion.calle}, {negocio.direccion.comuna}
+        </p>
+        <ul class="mt-2 space-y-1 text-sm text-asfalto-700">
+          {negocio.horario.map((h) => (
+            <li>{h.dias}: {h.horas}</li>
+          ))}
+        </ul>
+        <Image
+          src={local}
+          alt={`Fachada de ${negocio.nombre}`}
+          width={640}
+          height={480}
+          format="webp"
+          quality={80}
+          loading="lazy"
+          class="mt-5 h-56 w-full object-cover"
+        />
+
+        <a
+          href={negocio.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-block bg-senal px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white hover:bg-senal-dark"
+        >
+          Ver ubicación en Google Maps
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <BotonWhatsappFlotante />
+</Layout>
+
+<script define:vars={{ correo: negocio.correo }}>
+  const form = document.getElementById('form-contacto');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const nombre = form.nombre.value.trim();
+    const mensaje = form.mensaje.value.trim();
+
+    const asunto = `Consulta de ${nombre} desde el sitio web`;
+    const cuerpo = `${mensaje}\n\n—\nNombre: ${nombre}`;
+
+    const params = new URLSearchParams({
+      view: 'cm',
+      fs: '1',
+      to: correo,
+      su: asunto,
+      body: cuerpo,
+    });
+
+    window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank');
+  });
+</script>

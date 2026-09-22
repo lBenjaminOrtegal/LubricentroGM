@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { negocio } from '../data/negocio.js';
+---
+
+<Layout
+  title={`Cotizar servicio | ${negocio.nombre}`}
+  description="Ingresa los datos de tu vehículo para que te cotizemos por WhatsApp con toda la información lista."
+>
+  <section class="mx-auto max-w-lg px-6 py-14">
+    <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
+      Cotizar servicio
+    </h1>
+    <p id="servicio-label" class="mt-2 text-sm text-asfalto-700">
+      Completa los datos de tu vehículo y te contactamos por WhatsApp.
+    </p>
+
+    <form id="form-cotizar" class="mt-8 flex flex-col gap-4">
+      <div>
+        <label for="nombre" class="text-sm font-semibold text-asfalto-900">Tu nombre</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          required
+          class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+        />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="marca" class="text-sm font-semibold text-asfalto-900">Marca</label>
+          <input
+            id="marca"
+            name="marca"
+            type="text"
+            placeholder="Ej: Chevrolet"
+            required
+            class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="modelo" class="text-sm font-semibold text-asfalto-900">Modelo</label>
+          <input
+            id="modelo"
+            name="modelo"
+            type="text"
+            placeholder="Ej: Sail"
+            required
+            class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="anio" class="text-sm font-semibold text-asfalto-900">Año</label>
+          <input
+            id="anio"
+            name="anio"
+            type="number"
+            min="1970"
+            max="2100"
+            placeholder="Ej: 2018"
+            required
+            class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="patente" class="text-sm font-semibold text-asfalto-900">Patente</label>
+          <input
+            id="patente"
+            name="patente"
+            type="text"
+            placeholder="Opcional"
+            class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="kilometraje" class="text-sm font-semibold text-asfalto-900">Kilometraje aproximado</label>
+        <input
+          id="kilometraje"
+          name="kilometraje"
+          type="text"
+          placeholder="Opcional — Ej: 85.000 km"
+          class="mt-1 w-full border border-asfalto-800/20 px-3 py-2 text-sm focus:outline-none"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="mt-2 bg-senal cursor-pointer px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white hover:bg-senal-dark"
+      >
+        Continuar a WhatsApp
+      </button>
+    </form>
+  </section>
+</Layout>
+
+<script define:vars={{ telefono: negocio.telefonoWhatsapp }}>
+  const params = new URLSearchParams(window.location.search);
+  const servicio = params.get('servicio') || 'una mantención';
+
+  const label = document.getElementById('servicio-label');
+  if (label) {
+    label.textContent = `Servicio: ${servicio}. Completa los datos de tu vehículo y te contactamos por WhatsApp.`;
+  }
+
+  const form = document.getElementById('form-cotizar');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const nombre = form.nombre.value.trim();
+    const marca = form.marca.value.trim();
+    const modelo = form.modelo.value.trim();
+    const anio = form.anio.value.trim();
+    const patente = form.patente.value.trim();
+    const kilometraje = form.kilometraje.value.trim();
+
+    const lineas = [
+      `Hola, quiero cotizar: ${servicio}.`,
+      '',
+      `Nombre: ${nombre}`,
+      `Vehículo: ${marca} ${modelo} (${anio})`,
+    ];
+    if (patente) lineas.push(`Patente: ${patente}`);
+    if (kilometraje) lineas.push(`Kilometraje: ${kilometraje}`);
+
+    const mensaje = lineas.join('\n');
+    window.location.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+  });
+</script>

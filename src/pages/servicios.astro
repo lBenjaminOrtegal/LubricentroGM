@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
+import TarjetaServicio from '../components/TarjetaServicio.astro';
+import { servicios } from '../data/servicios.js';
+import { negocio } from '../data/negocio.js';
+---
+
+<Layout
+  title={`Servicios de mantención | ${negocio.nombre}`}
+  description={`Cambio de aceite, frenos, alineación y diagnóstico computarizado en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
+>
+  <section class="mx-auto max-w-content px-6 py-14">
+    <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
+      Servicios
+    </h1>
+    <p class="mt-2 max-w-xl text-sm text-asfalto-700">
+      Los precios son referenciales: el valor final depende del modelo y estado de tu vehículo.
+      Escríbenos por WhatsApp para una cotización exacta.
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {servicios.map((s) => <TarjetaServicio {...s} />)}
+    </div>
+  </section>
+
+  <BotonWhatsappFlotante />
+</Layout>

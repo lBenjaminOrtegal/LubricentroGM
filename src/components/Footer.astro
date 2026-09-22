@@ -1,0 +1,71 @@
+---
+import { negocio, linkWhatsapp } from '../data/negocio.js';
+---
+
+<footer id="informacion" class="border-t border-asfalto-800/10 bg-asfalto-950 text-acero-100">
+  <div class="mx-auto grid max-w-content gap-10 px-6 py-14 md:grid-cols-3">
+    <div>
+      <p class="font-display text-sm font-semibold uppercase tracking-wide text-white">Contáctanos</p>
+      <p class="mt-2 text-sm text-acero-300">Vía Whatsapp o Instagram</p>
+
+      <div class="mt-4 flex items-center gap-4">
+        <a
+          href={linkWhatsapp('Hola, quiero hacer una consulta.')}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Escríbenos por WhatsApp"
+          class="text-acero-300 transition-colors hover:text-senal-light"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.55-1.17-2.96 0-1.4.73-2.09.99-2.38.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 1.99.88 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.55.73 1.82.87.27.14.44.2.51.32.07.11.07.65-.17 1.33Z"
+            />
+          </svg>
+        </a>
+
+        <a
+          href={negocio.redes.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Síguenos en Instagram"
+          class="text-acero-300 transition-colors hover:text-senal-light"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="font-display text-sm font-semibold uppercase tracking-wide text-white">Ubicación</p>
+      <p class="mt-2 text-sm text-acero-300">
+        {negocio.direccion.calle}<br />
+        {negocio.direccion.comuna}, {negocio.direccion.region}
+      </p>
+      <a
+        href={negocio.googleMapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-2 inline-block text-sm font-semibold text-senal-light hover:underline"
+      >
+        Ver en Google Maps
+      </a>
+    </div>
+
+    <div>
+      <p class="font-display text-sm font-semibold uppercase tracking-wide text-white">Horario</p>
+      <ul class="mt-2 space-y-1 text-sm text-acero-300">
+        {negocio.horario.map((h) => (
+          <li>{h.dias}: {h.horas}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 py-4 text-center text-xs text-acero-400">
+    © {new Date().getFullYear()} {negocio.nombre}. Todos los derechos reservados.
+  </div>
+</footer>

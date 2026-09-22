@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import { productos } from '../data/productos.js';
+import { negocio } from '../data/negocio.js';
+---
+
+<Layout
+  title={`Productos y repuestos | ${negocio.nombre}`}
+  description={`Aceites, filtros, baterías y repuestos disponibles en ${negocio.direccion.comuna}. Consulta stock y precio por WhatsApp.`}
+>
+  <section class="mx-auto max-w-content px-6 py-14">
+    <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
+      Productos
+    </h1>
+    <p class="mt-2 max-w-xl text-sm text-asfalto-700">
+      Consulta disponibilidad para tu marca y modelo directamente por WhatsApp.
+    </p>
+
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {productos.map((p) => <TarjetaProducto {...p} />)}
+    </div>
+  </section>
+
+  <BotonWhatsappFlotante />
+</Layout>

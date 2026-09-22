@@ -1,0 +1,90 @@
+---
+import { negocio, linkWhatsapp } from '../data/negocio.js';
+import { Image } from 'astro:assets';
+
+import logoImg from "../assets/logos/logo.png";
+
+const enlaces = [
+  { href: '/', label: 'Inicio' },
+  { href: '/servicios', label: 'Servicios' },
+  { href: '/productos', label: 'Productos' },
+  { href: '/mundo-moto', label: 'Mundo Moto' },
+  { href: '/mundo-auto', label: 'Mundo Auto' },
+  { href: '/contactanos', label: 'Contáctanos' },
+];
+---
+<header class="relative border-b border-asfalto-800/10 bg-crudo">
+  <div class="mx-auto flex max-w-content items-center justify-between px-6 py-4">
+    <a href="/" class="flex items-center gap-2">
+      <Image src={logoImg} alt={negocio.nombre} class="h-14 w-auto" loading="eager" fetchpriority="high" />
+    </a>
+
+    <nav class="hidden items-center gap-8 font-body text-sm font-medium md:flex">
+      {enlaces.map((e) => (
+        <a href={e.href} class="hover:text-senal">{e.label}</a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={linkWhatsapp('Hola, quiero hacer una consulta.')}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-md bg-senal px-4 py-2 font-body text-sm font-semibold text-white transition-colors hover:bg-senal-dark"
+      >
+        Escríbenos
+      </a>
+
+      <button
+        id="boton-menu-mobile"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="menu-mobile"
+        class="ml-1 p-2 text-asfalto-900 md:hidden"
+      >
+        <svg id="icono-hamburguesa" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg id="icono-cerrar" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden">
+          <line x1="5" y1="5" x2="19" y2="19" />
+          <line x1="19" y1="5" x2="5" y2="19" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="menu-mobile"
+    class="hidden flex-col border-t border-asfalto-800/10 bg-crudo px-6 py-4 font-body text-sm font-medium md:hidden"
+  >
+    {enlaces.map((e) => (
+      <a href={e.href} class="border-b border-asfalto-800/5 py-3 hover:text-senal">{e.label}</a>
+    ))}
+  </nav>
+</header>
+
+<script>
+  const boton = document.getElementById('boton-menu-mobile');
+  const menu = document.getElementById('menu-mobile');
+  const iconoHamburguesa = document.getElementById('icono-hamburguesa');
+  const iconoCerrar = document.getElementById('icono-cerrar');
+
+  function alternarMenu() {
+    const abierto = menu?.classList.toggle('flex');
+    menu?.classList.toggle('hidden');
+    iconoHamburguesa?.classList.toggle('hidden');
+    iconoCerrar?.classList.toggle('hidden');
+    boton?.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+  }
+
+  boton?.addEventListener('click', alternarMenu);
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (!menu.classList.contains('hidden')) alternarMenu();
+    });
+  });
+</script>
