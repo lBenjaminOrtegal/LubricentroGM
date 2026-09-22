@@ -14,9 +14,6 @@ const { title, description } = Astro.props;
 const siteBase = Astro.site ?? new URL('https://www.lubricentrogym.cl');
 const canonicalURL = new URL(Astro.url.pathname, siteBase);
 
-// Datos estructurados: le dicen a Google explícitamente qué tipo de negocio
-// eres, dónde estás y cuándo atiendes. Esto es lo que más ayuda a aparecer
-// en el "pack local" de resultados, más que cualquier detalle de framework.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AutoRepair',
@@ -47,36 +44,44 @@ const jsonLd = {
 
 <!doctype html>
 <html lang="es-CL">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/src/assets/logos/logo.jpg" />
-    <link rel="canonical" href={canonicalURL} />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
+  <!-- Favicon: muévelo a public/logos/logo.jpg para que exista en el build -->
+  <link rel="icon" type="image/jpeg" href="/logos/logo.jpg" />
+  <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph / redes sociales -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content="es_CL" />
+  <!-- Sitemap autogenerado -->
+  <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- Open Graph / Redes sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:locale" content="es_CL" />
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap"
       rel="stylesheet"
-    />
+  />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  </head>
-  <body class="bg-crudo text-asfalto-900 font-body antialiased">
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
-  </body>
+  <!-- Schema.org / Rich Snippets -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</head>
+<body class="bg-crudo text-asfalto-900 font-body antialiased">
+<Header />
+<main>
+  <slot />
+</main>
+<Footer />
+</body>
 </html>
