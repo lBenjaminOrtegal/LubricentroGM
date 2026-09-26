@@ -1,56 +1,47 @@
-export const productos = [
-  {
-    slug: 'aceite-sintetico-5w30',
-    nombre: 'Aceite sintético 5W-30',
-    descripcion: 'Bidón de 4 litros. Ideal para motores nafteros modernos.',
-    precio: '$34.990',
-    imagenArchivo: 'aceite-sintetico-5w30.webp',
-    whatsappMensaje: 'Hola, quiero consultar por el aceite sintético 5W-30.',
-    categoria: 'auto',
-  },
-  {
-    slug: 'filtro-de-aceite',
-    nombre: 'Filtro de aceite',
-    descripcion: 'Disponible para múltiples marcas y modelos. Indícanos tu vehículo.',
-    precio: 'Desde $6.990',
-    imagenArchivo: 'filtro-de-aceite.png',
-    whatsappMensaje: 'Hola, necesito un filtro de aceite, ¿me pueden ayudar a identificar el modelo?',
-    categoria: 'ambos',
-  },
-  {
-    slug: 'bateria-12v',
-    nombre: 'Batería 12V',
-    descripcion: 'Baterías de distintas capacidades (Ah) con instalación incluida.',
-    precio: 'Desde $59.990',
-    imagenArchivo: 'bateria-12v.webp',
-    whatsappMensaje: 'Hola, quiero cotizar una batería para mi auto.',
-    categoria: 'ambos',
-  },
-  {
-    slug: 'limpiaparabrisas',
-    nombre: 'Escobillas limpiaparabrisas',
-    descripcion: 'Par de escobillas, instalación gratis en el local.',
-    precio: 'Desde $9.990',
-    imagenArchivo: 'escobillas.webp',
-    whatsappMensaje: 'Hola, quiero consultar por escobillas limpiaparabrisas.',
-    categoria: 'auto',
-  },
-  {
-    slug: 'aceite-moto-4t',
-    nombre: 'Aceite para moto 4 tiempos',
-    descripcion: 'Formulado para motores de moto, mayor protección a altas RPM.',
-    precio: '$16.990',
-    imagenArchivo: 'aceite-moto-4t.webp',
-    whatsappMensaje: 'Hola, quiero consultar por el aceite para moto 4 tiempos.',
-    categoria: 'moto',
-  },
-  {
-    slug: 'kit-transmision-moto',
-    nombre: 'Kit de transmisión (cadena y piñones)',
-    descripcion: 'Kit completo para reemplazo de transmisión, según marca y modelo.',
-    precio: 'Desde $45.990',
-    imagenArchivo: 'kit-transmision-moto.jpg',
-    whatsappMensaje: 'Hola, quiero cotizar un kit de transmisión para mi moto.',
-    categoria: 'moto',
-  },
-];
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_URL = import.meta.env.SUPABASE_URL;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.SUPABASE_PUBLISHABLE_KEY;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const BUCKET_IMAGENES = 'productos';
+
+// - categoria: 'auto', 'moto' o 'ambos' — determina en qué página aparece
+//   cada producto (mundo-auto.astro, mundo-moto.astro, o ambas).
+// - imagen_url: NO es la URL completa — es solo el nombre del archivo tal
+//   como lo subiste al bucket de Supabase Storage (ej: "aceite-5w30.jpg").
+//   El código de abajo arma la URL pública completa a partir de ese
+//   nombre, así que si el día de mañana cambias de bucket o de proyecto,
+//   no hay que editar cada fila de la tabla.
+
+export async function obtenerProductos() {
+  try {
+    const { data, error } = await supabase
+        .from('productos')
+        .select('id, nombre, descripcion, precio, imagen_url, categoria');
+
+    if (error) throw error;
+
+    return (data ?? [])
+        .map((fila) => {
+          const archivo = fila.imagen_url?.trim() ?? '';
+          const imagenUrl = archivo
+              ? supabase.storage.from(BUCKET_IMAGENES).getPublicUrl(archivo).data.publicUrl
+              : '';
+
+          return {
+            id: fila.id,
+            nombre: fila.nombre?.trim() ?? '',
+            descripcion: fila.descripcion?.trim() ?? '',
+            precio: fila.precio ?? 0,
+            imagenUrl,
+            categoria: fila.categoria?.trim().toLowerCase() ?? 'ambos',
+          };
+        })
+        .filter((p) => p.nombre && p.id != null);
+  } catch (error) {
+    console.error('[productos] No se pudo leer el catálogo desde Supabase:', error.message);
+    return [];
+  }
+}

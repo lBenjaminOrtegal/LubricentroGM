@@ -1,14 +1,20 @@
 ---
+// Dinámica: se renderiza en el servidor en cada visita (no en el build),
+// así el catálogo se lee fresco desde Supabase sin necesitar un redeploy.
+export const prerender = false;
+
 import Layout from '../layouts/Layout.astro';
 import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
 import TarjetaServicio from '../components/TarjetaServicio.astro';
-import { servicios } from '../data/servicios.js';
+import { obtenerServicios } from '../data/servicios.js';
 import { negocio } from '../data/negocio.js';
+
+const servicios = await obtenerServicios();
 ---
 
 <Layout
-  title={`Servicios de mantención | ${negocio.nombre}`}
-  description={`Cambio de aceite, frenos, alineación y diagnóstico computarizado en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
+    title={`Servicios de mantención | ${negocio.nombre}`}
+    description={`Cambio de aceite, frenos, alineación y diagnóstico computarizado en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
 >
   <section class="mx-auto max-w-content px-6 py-14">
     <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
@@ -19,9 +25,15 @@ import { negocio } from '../data/negocio.js';
       Escríbenos por WhatsApp para una cotización exacta.
     </p>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {servicios.map((s) => <TarjetaServicio {...s} />)}
-    </div>
+    {servicios.length > 0 ? (
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {servicios.map((s) => <TarjetaServicio {...s} />)}
+        </div>
+    ) : (
+        <p class="mt-8 text-sm text-asfalto-700">
+          No pudimos cargar los servicios en este momento. Escríbenos por WhatsApp y te ayudamos directo.
+        </p>
+    )}
   </section>
 
   <BotonWhatsappFlotante />

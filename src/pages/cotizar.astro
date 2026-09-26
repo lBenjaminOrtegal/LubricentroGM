@@ -116,19 +116,19 @@ import { negocio } from '../data/negocio.js';
     const marca = form.marca.value.trim();
     const modelo = form.modelo.value.trim();
     const anio = form.anio.value.trim();
-    const patente = form.patente.value.trim();
+    const patente = form.patente.value.trim().toUpperCase();
     const kilometraje = form.kilometraje.value.trim();
-
     const lineas = [
-      `Hola, quiero cotizar: ${servicio}.`,
+      `¡Hola! Quería consultar por el servicio de ${servicio}.`,
       '',
       `Nombre: ${nombre}`,
       `Vehículo: ${marca} ${modelo} (${anio})`,
     ];
     if (patente) lineas.push(`Patente: ${patente}`);
     if (kilometraje) lineas.push(`Kilometraje: ${kilometraje}`);
+    lineas.push("¿Está disponible?");
 
     const mensaje = lineas.join('\n');
-    window.location.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
   });
 </script>

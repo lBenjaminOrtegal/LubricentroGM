@@ -1,21 +1,23 @@
 ---
+export const prerender = false;
+
 import Layout from '../layouts/Layout.astro';
 import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
-import { productos } from '../data/productos.js';
+import { obtenerProductos } from '../data/productos.js';
 import { negocio, linkWhatsapp } from '../data/negocio.js';
 import { getImage } from 'astro:assets';
-import mundoAutoSrc from '../assets/mundo/mundo-auto.jpg';
+import banner from '../assets/mundo/mundo-auto.webp';
 
+const productos = await obtenerProductos();
 const productosAuto = productos.filter((p) => p.categoria === 'auto' || p.categoria === 'ambos');
-const banner = await getImage({ src: mundoAutoSrc, width: 1600, format: 'webp' });
 ---
 
 <Layout
-  title={`Mundo Auto | ${negocio.nombre}`}
-  description={`Repuestos y mantención exclusivos para auto en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
+    title={`Mundo Auto | ${negocio.nombre}`}
+    description={`Repuestos y mantención exclusivos para auto en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
 >
-  <section class="relative flex min-h-[16rem] items-end overflow-hidden bg-asfalto-950 text-white">
+  <section class="relative flex min-h-64 items-end overflow-hidden bg-asfalto-950 text-white">
     <div class="absolute inset-0 bg-cover bg-center" style={`background-image: url(${banner.src});`}></div>
     <div class="absolute inset-0 bg-asfalto-950/70"></div>
 
@@ -31,23 +33,23 @@ const banner = await getImage({ src: mundoAutoSrc, width: 1600, format: 'webp' }
 
   <section class="mx-auto max-w-content px-6 py-14">
     {productosAuto.length > 0 ? (
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {productosAuto.map((p) => <TarjetaProducto {...p} />)}
-      </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {productosAuto.map((p) => <TarjetaProducto {...p} />)}
+        </div>
     ) : (
-      <div class="border border-asfalto-800/10 bg-white p-8 text-center">
-        <p class="text-sm text-asfalto-700">
-          Estamos cargando el catálogo de Mundo Auto. Mientras tanto, escríbenos directo por WhatsApp.
-        </p>
-        <a
-          href={linkWhatsapp('Hola, vengo por el Mundo Auto, quiero cotizar.')}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-4 inline-block bg-senal px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white hover:bg-senal-dark"
-        >
-          Cotizar por WhatsApp
-        </a>
-      </div>
+        <div class="border border-asfalto-800/10 bg-white p-8 text-center">
+          <p class="text-sm text-asfalto-700">
+            Estamos cargando el catálogo de Mundo Auto. Mientras tanto, escríbenos directo por WhatsApp.
+          </p>
+          <a
+              href={linkWhatsapp('Hola, vengo por el Mundo Auto, quiero cotizar.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 inline-block bg-senal px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white hover:bg-senal-dark"
+          >
+            Cotizar por WhatsApp
+          </a>
+        </div>
     )}
   </section>
 

@@ -49,24 +49,20 @@ const jsonLd = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
 
-  <!-- Favicon: muévelo a public/logos/logo.jpg para que exista en el build -->
-  <link rel="icon" type="image/jpeg" href="/logos/logo.jpg" />
+  <link rel="icon" type="image/jpeg" href="/logos/logo.webp" />
   <link rel="canonical" href={canonicalURL} />
 
-  <!-- Sitemap autogenerado -->
   <link rel="sitemap" href="/sitemap-index.xml" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
 
-  <!-- Open Graph / Redes sociales -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:locale" content="es_CL" />
 
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -74,7 +70,6 @@ const jsonLd = {
       rel="stylesheet"
   />
 
-  <!-- Schema.org / Rich Snippets -->
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
 <body class="bg-crudo text-asfalto-900 font-body antialiased">

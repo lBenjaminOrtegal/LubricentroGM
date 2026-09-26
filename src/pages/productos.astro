@@ -1,14 +1,18 @@
 ---
+export const prerender = false;
+
 import Layout from '../layouts/Layout.astro';
 import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
-import { productos } from '../data/productos.js';
+import { obtenerProductos } from '../data/productos.js';
 import { negocio } from '../data/negocio.js';
+
+const productos = await obtenerProductos();
 ---
 
 <Layout
-  title={`Productos y repuestos | ${negocio.nombre}`}
-  description={`Aceites, filtros, baterías y repuestos disponibles en ${negocio.direccion.comuna}. Consulta stock y precio por WhatsApp.`}
+    title={`Productos y repuestos | ${negocio.nombre}`}
+    description={`Aceites, filtros, baterías y repuestos disponibles en ${negocio.direccion.comuna}. Consulta stock y precio por WhatsApp.`}
 >
   <section class="mx-auto max-w-content px-6 py-14">
     <h1 class="font-display text-3xl font-semibold uppercase tracking-wide text-asfalto-900">
@@ -18,9 +22,15 @@ import { negocio } from '../data/negocio.js';
       Consulta disponibilidad para tu marca y modelo directamente por WhatsApp.
     </p>
 
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {productos.map((p) => <TarjetaProducto {...p} />)}
-    </div>
+    {productos.length > 0 ? (
+        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {productos.map((p) => <TarjetaProducto {...p} />)}
+        </div>
+    ) : (
+        <p class="mt-8 text-sm text-asfalto-700">
+          No pudimos cargar el catálogo en este momento. Escríbenos por WhatsApp y te ayudamos directo.
+        </p>
+    )}
   </section>
 
   <BotonWhatsappFlotante />
