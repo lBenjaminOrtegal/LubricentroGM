@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import { linkWhatsapp } from '../data/negocio.js';
+import { linkWhatsapp } from '@/data/negocio';
+
+import { buttonVariants } from '@/components/ui/button';
 
 interface Props {
   nombre: string;
@@ -13,41 +15,43 @@ interface Props {
 const { nombre, descripcion, precio, imagenUrl } = Astro.props;
 ---
 
-<article class="flex flex-col border border-asfalto-800/10 bg-white">
-  <div class="aspect-4/3 w-full overflow-hidden bg-acero-100">
+<article class="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md">
+  <div class="aspect-4/3 w-full overflow-hidden bg-muted">
     {imagenUrl ? (
-      <Image
-        src={imagenUrl}
-        alt={nombre}
-        width={400}
-        height={300}
-        format="webp"
-        quality={80}
-        loading="lazy"
-        class="h-full w-full object-cover"
-      />
+        <Image
+            src={imagenUrl}
+            alt={nombre}
+            width={400}
+            height={300}
+            format="webp"
+            quality={80}
+            loading="lazy"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
     ) : (
-      <div class="flex h-full w-full items-center justify-center text-xs text-acero-400">
-        No se ha encontrado imagen
-      </div>
+        <div class="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+          Sin imagen
+        </div>
     )}
   </div>
 
   <div class="flex flex-1 flex-col justify-between p-5">
-    <div>
-      <h3 class="line-clamp-2 font-display text-base font-semibold uppercase tracking-wide text-asfalto-900">
+    <div class="space-y-2">
+      <h3 class="line-clamp-2 font-bold uppercase tracking-tight text-foreground">
         {nombre}
       </h3>
-      <p class="line-clamp-3 mt-1 text-sm text-asfalto-700">{descripcion}</p>
+      <p class="line-clamp-3 text-sm text-muted-foreground leading-relaxed">
+        {descripcion}
+      </p>
     </div>
 
-    <div class="mt-5 flex items-center justify-between">
-      <span class="font-display text-base font-semibold text-senal">$ {precio}</span>
+    <div class="mt-6 flex items-center justify-between">
+      <span class="text-lg font-bold text-primary">$ {precio}</span>
       <a
-        href={linkWhatsapp("¡Hola! Quería consultar por " + nombre + ". ¿Está disponible?")}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-sm font-semibold text-asfalto-900 underline decoration-senal decoration-2 underline-offset-4 hover:text-senal"
+          href={linkWhatsapp("¡Hola! Quería consultar por " + nombre + ". ¿Está disponible?")}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={buttonVariants({ variant: 'default', size: 'sm', className: 'font-semibold' })}
       >
         Consultar
       </a>

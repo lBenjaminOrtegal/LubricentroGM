@@ -1,4 +1,6 @@
 ---
+import { buttonVariants } from '@/components/ui/button';
+
 interface Props {
   nombre: string;
   descripcion: string;
@@ -8,19 +10,25 @@ interface Props {
 const { nombre, descripcion, precioMinimo } = Astro.props;
 ---
 
-<article class="flex flex-col justify-between border border-asfalto-800/10 bg-white p-6">
-  <div>
-    <h3 class="line-clamp-2 font-display text-lg font-semibold uppercase tracking-wide text-asfalto-900">
+<article class="flex h-full flex-col justify-between rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md">
+  <div class="space-y-3">
+    <h3 class="line-clamp-2 font-bold uppercase tracking-tight text-foreground">
       {nombre}
     </h3>
-    <p class="line-clamp-4 mt-2 text-sm leading-relaxed text-asfalto-700">{descripcion}</p>
+    <p class="line-clamp-4 text-sm leading-relaxed text-muted-foreground">
+      {descripcion}
+    </p>
   </div>
- 
-  <div class="mt-6 flex items-center justify-between border-t border-asfalto-800/10 pt-4">
-    <span class="font-display text-base font-semibold text-senal">Desde $ {precioMinimo}</span>
+
+  <div class="mt-6 flex items-center justify-between border-t border-border/50 pt-5">
+    <div class="flex flex-col">
+      <span class="text-xs text-muted-foreground uppercase tracking-wider">Desde</span>
+      <span class="text-lg font-bold text-primary">$ {precioMinimo}</span>
+    </div>
+
     <a
-      href={`/cotizar?servicio=${encodeURIComponent(nombre)}`}
-      class="text-sm font-semibold text-asfalto-900 underline decoration-senal decoration-2 underline-offset-4 hover:text-senal"
+        href={`/cotizar?servicio=${encodeURIComponent(nombre)}`}
+        class={buttonVariants({ variant: 'default', size: 'sm', className: 'font-semibold' })}
     >
       Cotizar
     </a>

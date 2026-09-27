@@ -1,67 +1,75 @@
 ---
-import { negocio, linkWhatsapp } from '../data/negocio.js';
+import { negocio, linkWhatsapp } from '@/data/negocio';
 import { Image } from 'astro:assets';
-
 import logoImg from "../../public/logos/logoPng.webp";
+
+import { buttonVariants } from '@/components/ui/button';
 
 const enlaces = [
   { href: '/', label: 'Inicio' },
   { href: '/servicios', label: 'Servicios' },
   { href: '/productos', label: 'Productos' },
-  { href: '/mundo-moto', label: 'Mundo Moto' },
-  { href: '/mundo-auto', label: 'Mundo Auto' },
   { href: '/contactanos', label: 'Contáctanos' },
 ];
 ---
-<header class="relative border-b border-asfalto-800/10 bg-crudo">
-  <div class="mx-auto flex max-w-content items-center justify-between px-6 py-4">
+<header class="sticky top-0 z-50 w-full border-b border-border bg-background">
+  <div class="mx-auto flex h-23 max-w-7xl items-center justify-between px-6">
     <a href="/" class="flex items-center gap-2">
-      <Image src={logoImg} alt={negocio.nombre} class="h-14 w-auto" loading="eager" fetchpriority="high" />
+      <Image src={logoImg} alt={negocio.nombre} class="h-12 w-auto object-contain" loading="eager" fetchpriority="high" />
     </a>
 
-    <nav class="hidden items-center gap-8 font-body text-sm font-medium md:flex">
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
       {enlaces.map((e) => (
-        <a href={e.href} class="hover:text-senal">{e.label}</a>
+          <a href={e.href} class="transition-colors hover:text-foreground">
+            {e.label}
+          </a>
       ))}
     </nav>
 
     <div class="flex items-center gap-2">
       <a
-        href={linkWhatsapp('Hola, quiero hacer una consulta.')}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="rounded-md bg-senal px-4 py-2 font-body text-sm font-semibold text-white transition-colors hover:bg-senal-dark"
+          href={linkWhatsapp("¡Hola! Quiero hacer una consulta.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={buttonVariants({ variant: 'default' })}
       >
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path
+              d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.3-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.55-1.17-2.96 0-1.4.73-2.09.99-2.38.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 1.99.88 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.36-.23.6-.14.24.09 1.55.73 1.82.87.27.14.44.2.51.32.07.11.07.65-.17 1.33Z"
+          />
+        </svg>
         Escríbenos
       </a>
 
       <button
-        id="boton-menu-mobile"
-        type="button"
-        aria-label="Abrir menú"
-        aria-expanded="false"
-        aria-controls="menu-mobile"
-        class="ml-1 p-2 text-asfalto-900 md:hidden"
+          id="boton-menu-mobile"
+          type="button"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="menu-mobile"
+          class={`md:hidden ${buttonVariants({ variant: 'ghost', size: 'icon' })}`}
       >
-        <svg id="icono-hamburguesa" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
+        <svg id="icono-hamburguesa" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12" />
+          <line x1="4" x2="20" y1="6" y2="6" />
+          <line x1="4" x2="20" y1="18" y2="18" />
         </svg>
-        <svg id="icono-cerrar" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden">
-          <line x1="5" y1="5" x2="19" y2="19" />
-          <line x1="19" y1="5" x2="5" y2="19" />
+        <svg id="icono-cerrar" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
         </svg>
       </button>
     </div>
   </div>
 
   <nav
-    id="menu-mobile"
-    class="hidden flex-col border-t border-asfalto-800/10 bg-crudo px-6 py-4 font-body text-sm font-medium md:hidden"
+      id="menu-mobile"
+      class="hidden flex-col border-t border-border bg-background px-6 py-4 text-sm font-medium shadow-md md:hidden"
   >
     {enlaces.map((e) => (
-      <a href={e.href} class="border-b border-asfalto-800/5 py-3 hover:text-senal">{e.label}</a>
+        <a href={e.href} class="border-b border-border/50 py-4 text-muted-foreground transition-colors hover:text-foreground">
+          {e.label}
+        </a>
     ))}
   </nav>
 </header>
@@ -77,14 +85,14 @@ const enlaces = [
     menu?.classList.toggle('hidden');
     iconoHamburguesa?.classList.toggle('hidden');
     iconoCerrar?.classList.toggle('hidden');
-    boton?.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    boton?.setAttribute('aria-expanded', String(abierto));
   }
 
   boton?.addEventListener('click', alternarMenu);
 
   menu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      if (!menu.classList.contains('hidden')) alternarMenu();
+      if (!menu?.classList.contains('hidden')) alternarMenu();
     });
   });
 </script>

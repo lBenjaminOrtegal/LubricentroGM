@@ -1,6 +1,16 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/nunito-sans";
+@import "@fontsource-variable/roboto-slab";
+@import "@fontsource-variable/montserrat";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* Tu paleta personalizada */
   --color-asfalto-950: #181818;
   --color-asfalto-900: #232323;
   --color-asfalto-800: #2E2E2E;
@@ -13,12 +23,11 @@
   --color-senal: #E4302D;
   --color-senal-dark: #B81F1C;
   --color-senal-light: #FF5450;
-
   --color-crudo: #FFFFFF;
 
+  /* Tipografías y Layout */
   --font-display: Oswald, "Arial Narrow", sans-serif;
   --font-body: Inter, system-ui, sans-serif;
-
   --max-width-content: 72rem;
 }
 
@@ -26,6 +35,7 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-body), sans-serif;
+    @apply font-sans;
   }
 
   a:focus-visible,
@@ -51,4 +61,157 @@
       scroll-behavior: auto !important;
     }
   }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Montserrat Variable', sans-serif;
+  --font-serif: 'Roboto Slab Variable', serif;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+  Variables Globales de shadcn/ui
+  (Tailwind v4 permite usar HEX nativo con opacidad automática)
+*/
+:root {
+  --background: #FFFFFF;
+  --foreground: var(--color-asfalto-950);
+
+  --card: #FFFFFF;
+  --card-foreground: var(--color-asfalto-950);
+
+  --popover: #FFFFFF;
+  --popover-foreground: var(--color-asfalto-950);
+
+  --primary: var(--color-senal);
+  --primary-foreground: #FFFFFF;
+
+  --secondary: var(--color-acero-100);
+  --secondary-foreground: var(--color-asfalto-900);
+
+  --muted: var(--color-acero-100);
+  --muted-foreground: var(--color-asfalto-700);
+
+  --accent: var(--color-acero-100);
+  --accent-foreground: var(--color-asfalto-900);
+
+  --destructive: var(--color-senal-dark);
+  --destructive-foreground: #FFFFFF;
+
+  --border: var(--color-acero-300);
+  --input: var(--color-acero-300);
+  --ring: var(--color-senal);
+
+  /* Tonos rojizos/naranjas para los gráficos basados en tu color primario */
+  --chart-1: #E4302D;
+  --chart-2: #FF5450;
+  --chart-3: #B81F1C;
+  --chart-4: #FF7A77;
+  --chart-5: #8A1513;
+
+  --radius: 0.5rem;
+
+  --sidebar: var(--color-crudo);
+  --sidebar-foreground: var(--color-asfalto-950);
+  --sidebar-primary: var(--color-senal);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: var(--color-acero-100);
+  --sidebar-accent-foreground: var(--color-asfalto-900);
+  --sidebar-border: var(--color-acero-300);
+  --sidebar-ring: var(--color-senal);
+}
+
+.dark {
+  --background: var(--color-asfalto-950);
+  --foreground: var(--color-acero-100);
+
+  --card: var(--color-asfalto-900);
+  --card-foreground: var(--color-acero-100);
+
+  --popover: var(--color-asfalto-900);
+  --popover-foreground: var(--color-acero-100);
+
+  --primary: var(--color-senal);
+  --primary-foreground: #FFFFFF;
+
+  --secondary: var(--color-asfalto-800);
+  --secondary-foreground: var(--color-acero-100);
+
+  --muted: var(--color-asfalto-800);
+  --muted-foreground: var(--color-acero-400);
+
+  --accent: var(--color-asfalto-800);
+  --accent-foreground: var(--color-acero-100);
+
+  --destructive: var(--color-senal-dark);
+  --destructive-foreground: #FFFFFF;
+
+  --border: var(--color-asfalto-800);
+  --input: var(--color-asfalto-800);
+  --ring: var(--color-senal-light);
+
+  --chart-1: #FF5450;
+  --chart-2: #E4302D;
+  --chart-3: #FF7A77;
+  --chart-4: #B81F1C;
+  --chart-5: #FFA19F;
+
+  --sidebar: var(--color-asfalto-950);
+  --sidebar-foreground: var(--color-acero-100);
+  --sidebar-primary: var(--color-senal);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: var(--color-asfalto-800);
+  --sidebar-accent-foreground: var(--color-acero-100);
+  --sidebar-border: var(--color-asfalto-800);
+  --sidebar-ring: var(--color-senal-light);
 }
