@@ -1,6 +1,6 @@
 export const negocio = {
   nombre: 'Lubricentro G&M',
-  eslogan: 'Todo para la mantencion de tu auto y tu moto.',
+  eslogan: 'Todo para la mantención de tu auto y tu moto.',
   telefonoWhatsapp: '56954885533',
   direccion: {
     calle: 'Brasilia 2414 Local B',
@@ -8,8 +8,9 @@ export const negocio = {
     region: 'Región Metropolitana',
   },
   horario: [
-    { dias: 'Lunes a viernes', horas: '09:00 - 19:00' },
-    { dias: 'Sábado', horas: '09:30 - 14:00' },
+    { dias: 'Lunes a Viernes', horas: '09:00 - 20:00' },
+    { dias: 'Miércoles', horas: '16:00 - 20:00' },
+    { dias: 'Sábado y Domingo', horas: '10:00 - 16:00' },
   ],
   coordenadas: {
     lat: -33.57229760867668,
