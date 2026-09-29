@@ -6,7 +6,7 @@ import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'https://lubricentrogm.vercel.app/',
+  site: 'https://lubricentrogm.cl',
   output: 'static',
   adapter: cloudflare({
     imageService: 'passthrough',

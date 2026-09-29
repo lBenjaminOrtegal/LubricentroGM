@@ -8,7 +8,7 @@ interface Props {
     params?: Record<string, string>;
 }
 
-const {paginaActual, totalPaginas, basePath, params = {}} = Astro.props;
+const { paginaActual, totalPaginas, basePath, params = {} } = Astro.props;
 
 function hrefPagina(n: number) {
     const query = new URLSearchParams(params);
@@ -17,11 +17,11 @@ function hrefPagina(n: number) {
     return qs ? `${basePath}?${qs}` : basePath;
 }
 
-const paginas = Array.from({length: totalPaginas}, (_, i) => i + 1);
+const paginas = Array.from({ length: totalPaginas }, (_, i) => i + 1);
 ---
 
 {totalPaginas > 1 && (
-<nav aria-label="Navegación de páginas" class="mx-auto flex w-full justify-center">
+<nav aria-label="Navegación de páginas" class="mx-auto flex w-full justify-center py-4">
     <ul class="flex flex-row items-center gap-1">
 
         <!-- Botón Anterior -->
@@ -42,29 +42,49 @@ const paginas = Array.from({length: totalPaginas}, (_, i) => i + 1);
                             aria-disabled="true"
                             class={buttonVariants({ variant: 'ghost', className: 'gap-1 pr-2.5 opacity-50 pointer-events-none' })}
                     >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                            <path d="m15 18-6-6 6-6"/>
-                        </svg>
-                        <span>Anterior</span>
-                    </span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                    <span>Anterior</span>
+                </span>
             )}
         </li>
 
-        <!-- Números de Página -->
-        {paginas.map((n) => (
-                <li class="hidden sm:block">
-                    <a
-                            href={hrefPagina(n)}
-                            aria-current={n === paginaActual ? 'page' : undefined}
-                            class={buttonVariants({
-                                variant: n === paginaActual ? 'outline' : 'ghost',
-                                size: 'icon',
-                            })}
-                    >
-                        {n}
-                    </a>
-                </li>
-        ))}
+        <!-- Indicador de página solo en móviles -->
+        <li class="sm:hidden px-2 text-sm font-medium text-muted-foreground">
+            <span>{paginaActual}</span> / <span>{totalPaginas}</span>
+        </li>
+
+        <!-- Números de Página (Pantallas medianas y grandes) -->
+        {paginas.map((n) => {
+            const esActual = n === paginaActual;
+            return (
+                    <li class="hidden sm:block">
+                        {esActual ? (
+                                <span
+                                        aria-current="page"
+                                        class={buttonVariants({
+                                            variant: 'default',
+                                            size: 'icon',
+                                            className: 'pointer-events-none font-bold shadow-sm',
+                                        })}
+                                >
+                            {n}
+                        </span>
+                        ) : (
+                                <a
+                                        href={hrefPagina(n)}
+                                        class={buttonVariants({
+                                            variant: 'ghost',
+                                            size: 'icon',
+                                        })}
+                                >
+                                    {n}
+                                </a>
+                        )}
+                    </li>
+            );
+        })}
 
         <!-- Botón Siguiente -->
         <li>
@@ -84,11 +104,11 @@ const paginas = Array.from({length: totalPaginas}, (_, i) => i + 1);
                             aria-disabled="true"
                             class={buttonVariants({ variant: 'ghost', className: 'gap-1 pl-2.5 opacity-50 pointer-events-none' })}
                     >
-                        <span>Siguiente</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </span>
+                    <span>Siguiente</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </span>
             )}
         </li>
 

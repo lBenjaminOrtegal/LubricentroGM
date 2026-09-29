@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import { linkWhatsapp } from '@/data/negocio';
-
 import { buttonVariants } from '@/components/ui/button';
 
 interface Props {
+  id?: string | number;
   nombre: string;
   descripcion: string;
   precio: string;
@@ -12,11 +12,14 @@ interface Props {
   categoria: string;
 }
 
-const { nombre, descripcion, precio, imagenUrl } = Astro.props;
+const { id, nombre, descripcion, precio, imagenUrl } = Astro.props;
+
+const enlaceDetalle = `/productos/${id ?? encodeURIComponent(nombre.toLowerCase().replace(/\s+/g, '-'))}`;
 ---
 
-<article class="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md">
-  <div class="aspect-4/3 w-full overflow-hidden bg-muted">
+<article class="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md">
+
+  <a href={enlaceDetalle} class="aspect-4/3 w-full overflow-hidden bg-muted block">
     {imagenUrl ? (
         <Image
             src={imagenUrl}
@@ -33,13 +36,15 @@ const { nombre, descripcion, precio, imagenUrl } = Astro.props;
           Sin imagen
         </div>
     )}
-  </div>
+  </a>
 
   <div class="flex flex-1 flex-col justify-between p-5">
     <div class="space-y-2">
-      <h3 class="line-clamp-2 font-bold uppercase tracking-tight text-foreground">
-        {nombre}
-      </h3>
+      <a href={enlaceDetalle} class="hover:underline">
+        <h3 class="line-clamp-2 font-bold uppercase tracking-tight text-foreground">
+          {nombre}
+        </h3>
+      </a>
       <p class="line-clamp-3 text-sm text-muted-foreground leading-relaxed">
         {descripcion}
       </p>

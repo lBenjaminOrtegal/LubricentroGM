@@ -197,7 +197,7 @@ const servicios = await obtenerServicios();
         </a>
       </div>
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {productos.slice(0, 4).map((p) => <TarjetaProducto {...p} />)}
+        {productos.slice(-4).reverse().map((p) => <TarjetaProducto {...p} />)}
       </div>
     </div>
   </section>

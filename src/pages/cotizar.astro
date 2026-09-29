@@ -1,13 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { negocio } from '@/data/negocio';
-
+import { obtenerServicios } from '@/data/servicios';
 import { buttonVariants } from '@/components/ui/button';
+
+const servicios = await obtenerServicios();
+
+// Mapeo ligero de nombre -> descripción para el cliente
+const mapaServicios = servicios.map((s) => ({
+  nombre: s.nombre,
+  descripcion: s.descripcion ?? '',
+}));
 ---
 
 <Layout
     title={`Cotizar servicio | ${negocio.nombre}`}
-    description="Ingresa los datos de tu vehículo para que te cotizemos por WhatsApp con toda la información lista."
+    description="Ingresa los datos de tu vehículo para que te coticemos por WhatsApp con toda la información lista."
 >
   <section class="border-b flex min-h-64 items-center overflow-hidden bg-muted">
     <div class="relative mx-auto text-center w-full max-w-7xl px-6 py-10">
@@ -20,13 +28,15 @@ import { buttonVariants } from '@/components/ui/button';
     </div>
   </section>
 
-  <section class="mx-auto max-w-xl px-6 py-6">
-    <div id="servicio-badge" class="mt-4 hidden justify-center">
-        <span class="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm font-medium text-foreground shadow-sm">
-          <strong id="servicio-nombre" class="font-bold uppercase tracking-tight"></strong>
-        </span>
+  <section class="mx-auto max-w-xl px-6 py-4">
+    <div id="servicio-info" class="mt-4 hidden flex-col items-center text-center gap-2">
+      <span class="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-foreground shadow-sm">
+        <strong id="servicio-nombre" class="font-bold uppercase tracking-tight"></strong>
+      </span>
+      <p id="servicio-descripcion" class="text-sm text-muted-foreground max-w-md hidden py-2"></p>
     </div>
-    <div class="mt-10 rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8">
+
+    <div class="my-8 rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8">
       <form id="form-cotizar" class="flex flex-col gap-6">
         <div class="space-y-2">
           <label for="nombre" class="text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -127,17 +137,27 @@ import { buttonVariants } from '@/components/ui/button';
   </section>
 </Layout>
 
-<script define:vars={{ telefono: negocio.telefonoWhatsapp }}>
+<script define:vars={{ telefono: negocio.telefonoWhatsapp, mapaServicios }}>
   const params = new URLSearchParams(window.location.search);
   const servicio = params.get('servicio');
 
-  const badge = document.getElementById('servicio-badge');
+  const contenedorInfo = document.getElementById('servicio-info');
   const nombreSpan = document.getElementById('servicio-nombre');
+  const descParrafo = document.getElementById('servicio-descripcion');
 
-  if (servicio && badge && nombreSpan) {
+  if (servicio && contenedorInfo && nombreSpan) {
     nombreSpan.textContent = servicio;
-    badge.classList.remove('hidden');
-    badge.classList.add('flex');
+    contenedorInfo.classList.remove('hidden');
+    contenedorInfo.classList.add('flex');
+
+    const coincidencia = mapaServicios.find(
+        (s) => s.nombre.toLowerCase() === servicio.toLowerCase()
+    );
+
+    if (coincidencia && coincidencia.descripcion && descParrafo) {
+      descParrafo.textContent = coincidencia.descripcion;
+      descParrafo.classList.remove('hidden');
+    }
   }
 
   const form = document.getElementById('form-cotizar');

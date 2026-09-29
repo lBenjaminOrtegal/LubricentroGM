@@ -1,17 +1,17 @@
 ---
-import { PRODUCTOS_POR_PAGINA } from "../../config";
+import { PRODUCTOS_POR_PAGINA } from "@/../config";
 export const prerender = false;
 
-import Layout from "../layouts/Layout.astro";
-import BotonWhatsappFlotante from "../components/BotonWhatsappFlotante.astro";
-import TarjetaProducto from "../components/TarjetaProducto.astro";
-import Paginacion from "../components/Paginacion.astro";
-import FiltroProductos from "../components/FiltroProductos.astro";
+import Layout from "@/layouts/Layout.astro";
+import BotonWhatsappFlotante from "@/components/BotonWhatsappFlotante.astro";
+import TarjetaProducto from "@/components/TarjetaProducto.astro";
+import Paginacion from "@/components/Paginacion.astro";
+import FiltroProductos from "@/components/FiltroProductos.astro";
 import { obtenerProductos } from "@/data/productos";
 import { negocio } from "@/data/negocio";
-import banner_todos from "../assets/todosProductos.webp";
-import banner_auto from "../assets/autoProductos.webp";
-import banner_moto from "../assets/motoProductos.webp";
+import banner_todos from "@/assets/todosProductos.webp";
+import banner_auto from "@/assets/autoProductos.webp";
+import banner_moto from "@/assets/motoProductos.webp";
 
 const buscar = (Astro.url.searchParams.get("buscar") || "").trim();
 const categoria = Astro.url.searchParams.get("categoria") || "todos";
