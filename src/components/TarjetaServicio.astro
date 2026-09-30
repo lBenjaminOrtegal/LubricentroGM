@@ -23,7 +23,7 @@ const { nombre, descripcion, precioMinimo } = Astro.props;
   <div class="mt-6 flex items-center justify-between border-t border-border/50 pt-5">
     <div class="flex flex-col">
       <span class="text-xs text-muted-foreground uppercase tracking-wider">Desde</span>
-      <span class="text-lg font-bold text-primary">$ {precioMinimo}</span>
+      <span class="text-lg font-bold text-primary">$ {Number(precioMinimo).toLocaleString('es-CL')}</span>
     </div>
 
     <a

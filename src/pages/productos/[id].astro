@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Layout from "../../layouts/Layout.astro";
 import BotonWhatsappFlotante from "../../components/BotonWhatsappFlotante.astro";
 import TarjetaProducto from "../../components/TarjetaProducto.astro";
@@ -7,25 +9,18 @@ import { negocio, linkWhatsapp } from "@/data/negocio";
 import { buttonVariants } from "@/components/ui/button";
 import { Image } from "astro:assets";
 
-export async function getStaticPaths() {
-    const productos = await obtenerProductos();
+const { id } = Astro.params;
+const productos = await obtenerProductos();
 
-    return productos.map((producto) => ({
-        params: { id: String(producto.id) },
-        props: {
-            producto,
-            relacionados: productos
-                .filter((p) => p.categoria === producto.categoria && p.id !== producto.id)
-                .slice(0, 4),
-        },
-    }));
-}
-
-const { producto, relacionados } = Astro.props;
+const producto = productos.find((p) => String(p.id) === id);
 
 if (!producto) {
     return Astro.redirect("/productos");
 }
+
+const relacionados = productos
+    .filter((p) => p.categoria === producto.categoria && String(p.id) !== id)
+    .slice(0, 4);
 
 const mensajeConsulta = `¡Hola! Quería consultar por ${producto.nombre}. ¿Está disponible?`;
 ---
@@ -86,7 +81,7 @@ const mensajeConsulta = `¡Hola! Quería consultar por ${producto.nombre}. ¿Est
 
                     <div class="flex items-baseline gap-3">
             <span class="text-3xl font-black text-primary sm:text-4xl">
-              $ {producto.precio}
+              $ {Number(producto.precio).toLocaleString('es-CL')}
             </span>
                         <span class="text-xs text-muted-foreground uppercase font-medium">IVA Incluido / Precio ref.</span>
                     </div>
