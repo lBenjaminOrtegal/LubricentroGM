@@ -1,0 +1,43 @@
+---
+import { negocio } from "@/data/negocio";
+---
+
+<div
+        id="page-loader"
+        class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm transition-opacity duration-300"
+        aria-live="polite"
+        aria-busy="true"
+>
+    <div class="flex flex-col items-center gap-4">
+        <div
+                class="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary"
+                role="status"
+        >
+            <span class="sr-only">Cargando...</span>
+        </div>
+
+        <p class="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
+            Cargando {negocio.nombre}...
+        </p>
+    </div>
+</div>
+
+<script>
+    function hideLoader() {
+        const loader = document.getElementById("page-loader");
+        if (!loader) return;
+
+        loader.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => {
+            loader.remove();
+        }, 300);
+    }
+
+    if (document.readyState === "complete") {
+        hideLoader();
+    } else {
+        window.addEventListener("load", hideLoader);
+    }
+
+    document.addEventListener("astro:page-load", hideLoader);
+</script>

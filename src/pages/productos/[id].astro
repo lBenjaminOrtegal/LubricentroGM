@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import Layout from "../../layouts/Layout.astro";
 import BotonWhatsappFlotante from "../../components/BotonWhatsappFlotante.astro";
 import TarjetaProducto from "../../components/TarjetaProducto.astro";
@@ -9,20 +7,25 @@ import { negocio, linkWhatsapp } from "@/data/negocio";
 import { buttonVariants } from "@/components/ui/button";
 import { Image } from "astro:assets";
 
-const { id } = Astro.params;
-const todosLosProductos = await obtenerProductos();
+export async function getStaticPaths() {
+    const productos = await obtenerProductos();
 
-const producto = todosLosProductos.find(
-    (p) => String(p.id) === id || p.slug === id || encodeURIComponent(p.nombre.toLowerCase().replace(/\s+/g, '-')) === id
-);
+    return productos.map((producto) => ({
+        params: { id: String(producto.id) },
+        props: {
+            producto,
+            relacionados: productos
+                .filter((p) => p.categoria === producto.categoria && p.id !== producto.id)
+                .slice(0, 4),
+        },
+    }));
+}
+
+const { producto, relacionados } = Astro.props;
 
 if (!producto) {
     return Astro.redirect("/productos");
 }
-
-const relacionados = todosLosProductos
-    .filter((p) => p.categoria === producto.categoria && p !== producto)
-    .slice(0, 4);
 
 const mensajeConsulta = `¡Hola! Quería consultar por ${producto.nombre}. ¿Está disponible?`;
 ---
@@ -44,7 +47,6 @@ const mensajeConsulta = `¡Hola! Quería consultar por ${producto.nombre}. ¿Est
     <section class="mx-auto max-w-7xl px-6 py-10 md:py-16">
         <div class="grid gap-10 md:grid-cols-2 md:gap-14 lg:gap-16">
 
-            <!-- Contenedor Imagen -->
             <div class="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                 <div class="aspect-square sm:aspect-4/3 md:aspect-square w-full bg-muted">
                     {producto.imagenUrl ? (
@@ -72,7 +74,7 @@ const mensajeConsulta = `¡Hola! Quería consultar por ${producto.nombre}. ¿Est
             <span class="rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {producto.categoria === "ambos" ? "Auto & Moto" : `Mundo ${producto.categoria}`}
             </span>
-                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600">
               <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
               Consultar disponibilidad en local
             </span>

@@ -8,11 +8,12 @@ interface Props {
   nombre: string;
   descripcion: string;
   precio: string;
-  imagenUrl: string;
+  imagen_url?: string;
+  imagenUrl?: string;
   categoria: string;
 }
 
-const { id, nombre, descripcion, precio, imagenUrl } = Astro.props;
+const { id, nombre, descripcion, precio, imagen_url, imagenUrl } = Astro.props;
 
 const enlaceDetalle = `/productos/${id ?? encodeURIComponent(nombre.toLowerCase().replace(/\s+/g, '-'))}`;
 ---

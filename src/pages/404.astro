@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { negocio, linkWhatsapp } from "@/data/negocio";
+import { buttonVariants } from "@/components/ui/button";
+import BotonWhatsappFlotante from "@/components/BotonWhatsappFlotante.astro";
+---
+
+<Layout
+        title={`Página no encontrada | ${negocio.nombre}`}
+        description={`La página que buscas no existe o ha cambiado de lugar. Vuelve al catálogo o contáctanos en ${negocio.nombre}.`}
+>
+    <main class="flex items-center justify-center px-6 py-40">
+        <div class="mx-auto max-w-xl text-center">
+            <h1 class="mt-4 text-4xl font-black uppercase tracking-tight text-foreground sm:text-5xl">
+                Página no encontrada
+            </h1>
+
+            <p class="mt-4 text-base leading-relaxed text-muted-foreground">
+                Parece que el producto, servicio o sección que buscas no está disponible.
+            </p>
+
+            <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <a
+                        href="/"
+                        class={buttonVariants({
+                            variant: "default",
+                            size: "lg",
+                            className: "w-full uppercase font-bold tracking-wide sm:w-auto",
+                        })}
+                >
+                    Volver al Inicio
+                </a>
+
+                <a
+                        href="/productos"
+                        class={buttonVariants({
+                            variant: "secondary",
+                            size: "lg",
+                            className: "w-full uppercase font-bold tracking-wide sm:w-auto",
+                        })}
+                >
+                    Ver el Catálogo
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <BotonWhatsappFlotante />
+</Layout>

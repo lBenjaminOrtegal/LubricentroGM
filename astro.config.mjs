@@ -11,6 +11,8 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: 'passthrough',
   }),
+  image:
+      { domains: ["gormxrgwobexytbfsxmd.supabase.co"], },
   vite: {
     plugins: [tailwindcss()]
   },

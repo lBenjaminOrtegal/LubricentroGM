@@ -1,7 +1,7 @@
 ---
-import { PRODUCTOS_POR_PAGINA } from "@/../config";
 export const prerender = false;
 
+import { PRODUCTOS_POR_PAGINA } from "@/../../config";
 import Layout from "@/layouts/Layout.astro";
 import BotonWhatsappFlotante from "@/components/BotonWhatsappFlotante.astro";
 import TarjetaProducto from "@/components/TarjetaProducto.astro";
@@ -9,6 +9,8 @@ import Paginacion from "@/components/Paginacion.astro";
 import FiltroProductos from "@/components/FiltroProductos.astro";
 import { obtenerProductos } from "@/data/productos";
 import { negocio } from "@/data/negocio";
+
+import { Image } from "astro:assets";
 import banner_todos from "@/assets/todosProductos.webp";
 import banner_auto from "@/assets/autoProductos.webp";
 import banner_moto from "@/assets/motoProductos.webp";
@@ -53,28 +55,22 @@ const paramsPaginacion = {
 
 const banners = {
     moto: {
-        src: banner_moto.src,
+        image: banner_moto,
         titulo: "Mundo Moto",
         subtitulo: "Encuentra repuestos, aceites de alto rendimiento y accesorios diseñados específicamente para el cuidado y estilo de tu moto.",
         alt: "Motocicleta en carretera mostrando rendimiento y velocidad",
-        etiqueta: "Especialidad 2 ruedas",
-        cta: "Ver catálogo de motos"
     },
     auto: {
-        src: banner_auto.src,
+        image: banner_auto,
         titulo: "Mundo Auto",
         subtitulo: "Todo lo que tu vehículo necesita: baterías, filtros, lubricantes y repuestos de las mejores marcas para una mantención óptima.",
         alt: "Mecánico revisando el motor de un automóvil en el taller",
-        etiqueta: "Mantención integral",
-        cta: "Ver catálogo de autos"
     },
     todos: {
-        src: banner_todos.src,
+        image: banner_todos,
         titulo: "Catálogo de Productos",
         subtitulo: "Explora nuestro inventario completo. Contamos con stock actualizado de insumos y accesorios para mantener tu auto o moto al 100%.",
         alt: "Estanterías del lubricentro con bidones de aceite y repuestos",
-        etiqueta: "Stock garantizado",
-        cta: "Explorar todo"
     },
 };
 
@@ -86,10 +82,13 @@ const banner = banners[categoria as keyof typeof banners] || banners.todos;
         description={`Aceites, filtros, baterías y repuestos disponibles en ${negocio.direccion.comuna}. Consulta stock y precio por WhatsApp.`}
 >
     <section class="relative border-b flex min-h-64 items-center overflow-hidden text-white">
-        <div
-                class="absolute inset-0 bg-cover bg-center"
-                style={`background-image: url('${banner.src}');`}
-        ></div>
+        <Image
+                src={banner.image}
+                alt={banner.alt}
+                sizes="100vw"
+                class="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+                loading="eager"
+        />
         <div class="absolute inset-0 bg-black/70"></div>
 
         <div class="relative mx-auto w-full max-w-7xl px-6 py-10">

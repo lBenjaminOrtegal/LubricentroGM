@@ -1,12 +1,10 @@
 ---
-export const prerender = false;
-
 import Layout from '../layouts/Layout.astro';
 import BotonWhatsappFlotante from '../components/BotonWhatsappFlotante.astro';
 import TarjetaServicio from '../components/TarjetaServicio.astro';
 import { obtenerServicios } from '@/data/servicios';
 import { negocio } from '@/data/negocio';
-import serviciosImg from '@/assets/servicios.webp';
+import serviciosImg from '../assets/servicios.webp';
 
 const servicios = await obtenerServicios();
 ---

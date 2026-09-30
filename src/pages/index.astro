@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import Layout from "../layouts/Layout.astro";
 import BotonWhatsappFlotante from "../components/BotonWhatsappFlotante.astro";
 import TarjetaServicio from "../components/TarjetaServicio.astro";
@@ -8,6 +6,8 @@ import TarjetaProducto from "../components/TarjetaProducto.astro";
 import { obtenerServicios } from "@/data/servicios";
 import { obtenerProductos } from "@/data/productos";
 import { negocio, linkWhatsapp } from "@/data/negocio";
+
+import { Image } from 'astro:assets';
 import heroMoto from "../assets/hero-moto.webp";
 import mundoMoto from "../assets/mundo-moto.webp";
 import mundoAuto from "../assets/mundo-auto.webp";
@@ -22,13 +22,15 @@ const servicios = await obtenerServicios();
     title={`${negocio.nombre} — Lubricentro y repuestos en ${negocio.direccion.comuna}`}
     description={`${negocio.eslogan} Cambio de aceite, frenos, diagnóstico y repuestos en ${negocio.direccion.comuna}. Cotiza por WhatsApp.`}
 >
-  <section class="relative overflow-hidden text-white">
-    <div
-        class="absolute inset-0 bg-cover bg-center"
-        style={`background-image: url('${heroMoto.src}');`}
-    >
-    </div>
-    <div class="absolute inset-0 bg-black/80"></div>
+  <section class="relative isolate overflow-hidden text-white">
+    <Image
+        src={heroMoto}
+        alt="Hero de Moto"
+        sizes="100vw"
+        loading="eager"
+        class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+    />
+    <div class="absolute inset-0 -z-10 bg-black/80"></div>
 
     <div
         class="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-20 md:grid-cols-2 md:py-28"
@@ -124,11 +126,12 @@ const servicios = await obtenerServicios();
         href="/productos?categoria=moto"
         class="group relative isolate flex min-h-96 items-end overflow-hidden p-10"
     >
-      <div
-          class="absolute inset-0 -z-10 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={`background-image: url('${mundoMoto.src}');`}
-      >
-      </div>
+      <Image
+          src={mundoMoto}
+          alt="Mundo Moto"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          class="absolute inset-0 -z-10 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+      />
       <div
           class="absolute inset-0 -z-10 bg-black/70 transition-colors duration-500 group-hover:bg-black/50"
       >
@@ -154,11 +157,12 @@ const servicios = await obtenerServicios();
         href="/productos?categoria=auto"
         class="group relative isolate flex min-h-96 items-end overflow-hidden p-10"
     >
-      <div
-          class="absolute inset-0 -z-10 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={`background-image: url('${mundoAuto.src}');`}
-      >
-      </div>
+      <Image
+          src={mundoAuto}
+          alt="Mundo Auto"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          class="absolute inset-0 -z-10 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+      />
       <div
           class="absolute inset-0 -z-10 bg-black/70 transition-colors duration-500 group-hover:bg-black/50"
       >
